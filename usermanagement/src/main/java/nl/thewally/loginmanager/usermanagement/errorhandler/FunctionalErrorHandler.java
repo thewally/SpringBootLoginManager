@@ -14,7 +14,7 @@ public class FunctionalErrorHandler {
 
     public Map get() {
         Map<String, String> error = new HashMap<>();
-        error.put("error", errorcode+": "+errortext);
+        error.put("error found", errorcode+": "+errortext);
         return error;
     }
 }
