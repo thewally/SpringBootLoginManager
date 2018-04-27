@@ -11,10 +11,10 @@ public class Session {
     @GeneratedValue(strategy = GenerationType.TABLE, generator="tab")
     private Long id;
 
-    @Column(name="SESSIONID")
+    @Column(name="SESSIONID", nullable = false, unique = true)
     private String sessionId;
 
-    @Column(name="USER_FK")
+    @Column(name="USER_FK", nullable = false)
     private Long userFk;
 
     public Long getId() {

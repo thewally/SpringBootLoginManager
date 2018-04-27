@@ -18,11 +18,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.TABLE, generator="tab")
     private Long id;
 
-    @Column(name="USERNAME")
+    @Column(name="USERNAME", nullable = false)
     private String username;
 
-    @Column(name="PASSWORD")
+    @Column(name="PASSWORD", nullable = false)
     private String password;
+
+    @Column(name="GROUP_FK", nullable = false)
+    private Long groupFk;
 
     public Long getId() {
         return id;
@@ -47,6 +50,14 @@ public class User {
     public void setPassword(String password) {
         byte[] encodedBytes = Base64.encodeBase64(password.getBytes());
         this.password = new String(encodedBytes);
+    }
+
+    public Long getGroupFk() {
+        return groupFk;
+    }
+
+    public void setGroupFk(Long groupFk) {
+        this.groupFk = groupFk;
     }
 
 }
