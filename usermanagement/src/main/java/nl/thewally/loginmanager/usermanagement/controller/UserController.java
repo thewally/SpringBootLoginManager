@@ -1,6 +1,7 @@
 package nl.thewally.loginmanager.usermanagement.controller;
 
 import nl.thewally.loginmanager.usermanagement.domain.User;
+import nl.thewally.loginmanager.usermanagement.errorhandler.FunctionalErrorHandler;
 import nl.thewally.loginmanager.usermanagement.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class UserController {
         if(password.equals(passwordValidate)) {
             user.setPassword(password);
         } else {
-
+            return new FunctionalErrorHandler("002", "Password is incorrect").get();
         }
         userRepository.save(user);
         return Collections.singletonMap("userId", String.valueOf(user.getId()));
