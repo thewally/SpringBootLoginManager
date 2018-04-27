@@ -1,0 +1,1 @@
+ insert into user (id, username, password) values ('9999999', 'Admin', 'YWRtaW4=');
