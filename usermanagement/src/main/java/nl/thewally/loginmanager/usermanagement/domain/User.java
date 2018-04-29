@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="USER")
@@ -18,13 +19,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.TABLE, generator="tab")
     private Long id;
 
-    @Column(name="USERNAME", nullable = false)
+    @NotNull
+    @Column(name="USERNAME")
     private String username;
 
-    @Column(name="PASSWORD", nullable = false)
+    @NotNull
+    @Column(name="PASSWORD")
     private String password;
 
-    @Column(name="GROUP_FK", nullable = false)
+    @Column(name="GROUP_FK")
     private Long groupFk;
 
     public Long getId() {

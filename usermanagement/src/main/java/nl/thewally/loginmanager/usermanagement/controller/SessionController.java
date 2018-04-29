@@ -2,7 +2,9 @@ package nl.thewally.loginmanager.usermanagement.controller;
 
 import nl.thewally.loginmanager.usermanagement.domain.Session;
 import nl.thewally.loginmanager.usermanagement.domain.User;
+import nl.thewally.loginmanager.usermanagement.errorhandler.ErrorCode;
 import nl.thewally.loginmanager.usermanagement.errorhandler.FunctionalErrorHandler;
+import nl.thewally.loginmanager.usermanagement.errorhandler.FunctionalException;
 import nl.thewally.loginmanager.usermanagement.repository.SessionRepository;
 import nl.thewally.loginmanager.usermanagement.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,19 +29,19 @@ public class SessionController {
     private SessionRepository sessionRepository;
 
     @RequestMapping(value = "/login" , method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Map loginUser(@RequestBody Map<String, String> map) {
+    public Map loginUser(@RequestBody User user) throws FunctionalException {
 
         long currentTimeStamp = Instant.now().toEpochMilli();
         long randomNumber = new Random().nextLong();
         String sessionId = currentTimeStamp + "" + randomNumber;
 
-        User foundUser = userRepository.findByUsernameAndPassword(map.get("username"), map.get("password"));
-        if(foundUser==null) {
-            return new FunctionalErrorHandler("001", "User not found").get();
+        User userFound = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
+        if(userFound==null) {
+            throw new FunctionalException(ErrorCode.ERROR0001);
         }
         Session session = new Session();
         session.setSessionId(sessionId);
-        session.setUserFk(foundUser.getId());
+        session.setUserFk(user.getId());
         sessionRepository.save(session);
 
         return Collections.singletonMap("sessionId", sessionId);

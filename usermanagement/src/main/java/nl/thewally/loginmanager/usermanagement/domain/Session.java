@@ -14,7 +14,7 @@ public class Session {
     @Column(name="SESSIONID", nullable = false, unique = true)
     private String sessionId;
 
-    @Column(name="USER_FK", nullable = false)
+    @Column(name="USER_FK")
     private Long userFk;
 
     public Long getId() {
