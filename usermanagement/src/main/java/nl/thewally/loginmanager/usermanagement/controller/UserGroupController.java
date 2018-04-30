@@ -28,6 +28,7 @@ public class UserGroupController {
 
         UserGroup userGroupToAdd = new UserGroup();
         userGroupToAdd.setGroupName(userGroup.getGroupName());
+        userGroupToAdd.setMayAddUsersToGroup(userGroup.getMayAddUsersToGroup());
         userGroupToAdd.setMayCreateUsers(userGroup.getMayCreateUsers());
         userGroupToAdd.setMayCreateGroups(userGroup.getMayCreateGroups());
         userGroupRepository.save(userGroupToAdd);

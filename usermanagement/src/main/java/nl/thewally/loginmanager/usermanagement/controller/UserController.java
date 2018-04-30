@@ -37,6 +37,13 @@ public class UserController {
         return userResponseRepository.findAll();
     }
 
+    @RequestMapping(value = "/getUsers/{sessionId}/{userId}")
+    public UserResponse getUser(@PathVariable String sessionId, @PathVariable Long userId) throws FunctionalException {
+        validator.validateSessionAvailable(sessionId);
+        return userResponseRepository.findById(userId);
+    }
+
+
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     public ResponseEntity addUser(@RequestBody AddUserRequest user) throws FunctionalException {
         validator.validateSessionAvailable(user.getSessionId());
@@ -60,7 +67,7 @@ public class UserController {
     @RequestMapping(value = "/addUserToGroup", method = RequestMethod.POST)
     public ResponseEntity addUserToGroup(@RequestBody AddUserToGroupRequest request) throws FunctionalException {
         validator.validateSessionAvailable(request.getSessionId());
-        validator.validateUserMayCreateGroups(request.getSessionId());
+        validator.validateUserMayAddUsersToGroup(request.getSessionId());
 
         User user = userRepository.findById(request.getUserId());
         user.setGroupFk(request.getGroupId());

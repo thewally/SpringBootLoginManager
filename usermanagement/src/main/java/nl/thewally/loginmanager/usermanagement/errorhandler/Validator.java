@@ -53,6 +53,12 @@ public class Validator {
         }
     }
 
+    public void validateUserMayAddUsersToGroup(String sessionId) throws FunctionalException {
+        if(!checkUserPolicy(sessionId).getMayAddUsersToGroup()) {
+            throw new FunctionalException(ErrorCode.ERROR1004);
+        }
+    }
+
     private UserGroup checkUserPolicy(String sessionId) {
         Session session = sessionRepository.findBySessionId(sessionId);
         User moderator = userRepository.findById(session.getUserFk());

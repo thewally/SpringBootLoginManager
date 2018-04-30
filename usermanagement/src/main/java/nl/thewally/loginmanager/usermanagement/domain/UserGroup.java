@@ -20,6 +20,9 @@ public class UserGroup {
     @Column(name="GROUPNAME", nullable = false, unique = true)
     private String groupName;
 
+    @Column(name="MAYADDUSERSTOGROUP", nullable = false)
+    private Boolean mayAddUsersToGroup;
+
     @Column(name="MAYCREATEUSERS", nullable = false)
     private Boolean mayCreateUsers;
 
@@ -40,6 +43,14 @@ public class UserGroup {
 
     public void setGroupName(String groupName) {
         this.groupName = groupName;
+    }
+
+    public Boolean getMayAddUsersToGroup() {
+        return mayAddUsersToGroup;
+    }
+
+    public void setMayAddUsersToGroup(Boolean mayAddUsersToGroup) {
+        this.mayAddUsersToGroup = mayAddUsersToGroup;
     }
 
     public Boolean getMayCreateUsers() {

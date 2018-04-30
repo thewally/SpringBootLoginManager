@@ -6,6 +6,7 @@ public enum ErrorCode {
     ERROR1001 ("1001", "Session not found."),
     ERROR1002 ("1002", "User cannot create users."),
     ERROR1003 ("1003", "User cannot create user groups."),
+    ERROR1004 ("1004", "User cannot add users to user groups."),
     ERROR9999 ("9999", "System error: ");
 
     private String errorCode;

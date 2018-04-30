@@ -9,6 +9,8 @@ public class AddGroupRequest {
     @NotNull
     private String groupName;
     @NotNull
+    private Boolean mayAddUsersToGroup;
+    @NotNull
     private Boolean mayCreateUsers;
     @NotNull
     private Boolean mayCreateGroups;
@@ -27,6 +29,14 @@ public class AddGroupRequest {
 
     public void setGroupName(String groupName) {
         this.groupName = groupName;
+    }
+
+    public Boolean getMayAddUsersToGroup() {
+        return mayAddUsersToGroup;
+    }
+
+    public void setMayAddUsersToGroup(Boolean mayAddUsersToGroup) {
+        this.mayAddUsersToGroup = mayAddUsersToGroup;
     }
 
     public Boolean getMayCreateUsers() {
