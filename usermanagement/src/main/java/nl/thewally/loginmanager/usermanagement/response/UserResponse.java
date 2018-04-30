@@ -1,4 +1,4 @@
-package nl.thewally.loginmanager.usermanagement.domain;
+package nl.thewally.loginmanager.usermanagement.response;
 
 import org.apache.tomcat.util.codec.binary.Base64;
 
@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name="USER")
 @TableGenerator(name="tab", initialValue=0, allocationSize=1)
-public class UserLite {
+public class UserResponse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator="tab")

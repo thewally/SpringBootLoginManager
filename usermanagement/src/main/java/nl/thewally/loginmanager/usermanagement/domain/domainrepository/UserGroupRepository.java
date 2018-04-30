@@ -1,4 +1,4 @@
-package nl.thewally.loginmanager.usermanagement.repository;
+package nl.thewally.loginmanager.usermanagement.domain.domainrepository;
 
 import nl.thewally.loginmanager.usermanagement.domain.UserGroup;
 import org.springframework.data.jpa.repository.JpaRepository;
