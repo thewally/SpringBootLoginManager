@@ -5,7 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @SpringBootApplication
-@EntityScan(basePackages = {"nl.thewally.loginmanager.usermanagement.domain"})
+@EntityScan(basePackages = {
+		"nl.thewally.loginmanager.usermanagement.domain",
+		"nl.thewally.loginmanager.usermanagement.response"
+})
 public class Application {
 
 	public static void main(String[] args) {
