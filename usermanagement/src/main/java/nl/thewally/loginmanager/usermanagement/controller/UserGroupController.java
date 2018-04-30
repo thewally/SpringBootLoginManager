@@ -3,6 +3,7 @@ package nl.thewally.loginmanager.usermanagement.controller;
 import nl.thewally.loginmanager.usermanagement.domain.User;
 import nl.thewally.loginmanager.usermanagement.domain.UserGroup;
 import nl.thewally.loginmanager.usermanagement.domain.domainrepository.UserGroupRepository;
+import nl.thewally.loginmanager.usermanagement.domain.domainrepository.UserRepository;
 import nl.thewally.loginmanager.usermanagement.errorhandler.FunctionalException;
 import nl.thewally.loginmanager.usermanagement.errorhandler.Validator;
 import nl.thewally.loginmanager.usermanagement.request.AddGroupRequest;
@@ -17,6 +18,9 @@ import java.util.List;
 public class UserGroupController {
     @Autowired
     private UserGroupRepository userGroupRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private Validator validator;
@@ -55,6 +59,13 @@ public class UserGroupController {
 
         UserGroup userGroup = userGroupRepository.findById(groupId);
         userGroupRepository.delete(userGroup);
+
+        List<User> users = userRepository.findByGroupFk(groupId);
+        for(User user : users) {
+            user.setGroupFk(userGroupRepository.findByGroupName("Default").getId());
+            userRepository.save(user);
+        }
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
