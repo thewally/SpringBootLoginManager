@@ -3,12 +3,13 @@ package nl.thewally.loginmanager.usermanagement.controller;
 import nl.thewally.loginmanager.usermanagement.domain.Session;
 import nl.thewally.loginmanager.usermanagement.domain.User;
 import nl.thewally.loginmanager.usermanagement.errorhandler.ErrorCode;
-import nl.thewally.loginmanager.usermanagement.errorhandler.FunctionalErrorHandler;
 import nl.thewally.loginmanager.usermanagement.errorhandler.FunctionalException;
 import nl.thewally.loginmanager.usermanagement.repository.SessionRepository;
 import nl.thewally.loginmanager.usermanagement.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,7 +30,7 @@ public class SessionController {
     private SessionRepository sessionRepository;
 
     @RequestMapping(value = "/login" , method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Map loginUser(@RequestBody User user) throws FunctionalException {
+    public ResponseEntity loginUser(@RequestBody User user) throws FunctionalException {
 
         long currentTimeStamp = Instant.now().toEpochMilli();
         long randomNumber = new Random().nextLong();
@@ -44,6 +45,6 @@ public class SessionController {
         session.setUserFk(user.getId());
         sessionRepository.save(session);
 
-        return Collections.singletonMap("sessionId", sessionId);
+        return new ResponseEntity<>(Collections.singletonMap("sessionId", sessionId), HttpStatus.OK);
     }
 }
