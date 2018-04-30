@@ -1,7 +1,6 @@
 package nl.thewally.loginmanager.usermanagement.controller;
 
 import nl.thewally.loginmanager.usermanagement.domain.User;
-import nl.thewally.loginmanager.usermanagement.domain.domainrepository.SessionRepository;
 import nl.thewally.loginmanager.usermanagement.errorhandler.Validator;
 import nl.thewally.loginmanager.usermanagement.request.AddUserRequest;
 import nl.thewally.loginmanager.usermanagement.request.AddUserToGroupRequest;
@@ -30,13 +29,11 @@ public class UserController {
     private UserGroupRepository userGroupRepository;
 
     @Autowired
-    private SessionRepository sessionRepository;
-
-    @Autowired
     private Validator validator;
 
-    @RequestMapping(value = "/getUsers")
-    public List<UserResponse> getUsers() {
+    @RequestMapping(value = "/getUsers/{sessionId}")
+    public List<UserResponse> getUsers(@PathVariable String sessionId) throws FunctionalException {
+        validator.validateSessionAvailable(sessionId);
         return userResponseRepository.findAll();
     }
 

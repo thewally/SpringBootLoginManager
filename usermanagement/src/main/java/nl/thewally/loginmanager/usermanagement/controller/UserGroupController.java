@@ -3,6 +3,8 @@ package nl.thewally.loginmanager.usermanagement.controller;
 import nl.thewally.loginmanager.usermanagement.domain.UserGroup;
 import nl.thewally.loginmanager.usermanagement.domain.domainrepository.UserGroupRepository;
 import nl.thewally.loginmanager.usermanagement.errorhandler.FunctionalException;
+import nl.thewally.loginmanager.usermanagement.errorhandler.Validator;
+import nl.thewally.loginmanager.usermanagement.request.AddGroupRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +18,20 @@ public class UserGroupController {
     @Autowired
     private UserGroupRepository userGroupRepository;
 
+    @Autowired
+    private Validator validator;
+
     @RequestMapping(value = "/addGroup", method = RequestMethod.POST)
-    public ResponseEntity addGroup(@RequestBody UserGroup userGroup) throws FunctionalException {
-        userGroupRepository.save(userGroup);
-        return new ResponseEntity<>(userGroupRepository.findById(userGroup.getId()), HttpStatus.OK);
+    public ResponseEntity addGroup(@RequestBody AddGroupRequest userGroup) throws FunctionalException {
+
+        validator.validateUserMayCreateGroups(userGroup.getSessionId());
+
+        UserGroup userGroupToAdd = new UserGroup();
+        userGroupToAdd.setGroupName(userGroup.getGroupName());
+        userGroupToAdd.setMayCreateUsers(userGroup.getMayCreateUsers());
+        userGroupToAdd.setMayCreateGroups(userGroup.getMayCreateGroups());
+        userGroupRepository.save(userGroupToAdd);
+
+        return new ResponseEntity<>(userGroupRepository.findById(userGroupToAdd.getId()), HttpStatus.OK);
     }
 }
