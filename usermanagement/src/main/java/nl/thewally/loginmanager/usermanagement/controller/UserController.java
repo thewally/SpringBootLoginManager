@@ -2,7 +2,6 @@ package nl.thewally.loginmanager.usermanagement.controller;
 
 import nl.thewally.loginmanager.usermanagement.domain.User;
 import nl.thewally.loginmanager.usermanagement.errorhandler.ErrorCode;
-import nl.thewally.loginmanager.usermanagement.errorhandler.ErrorResponse;
 import nl.thewally.loginmanager.usermanagement.errorhandler.FunctionalException;
 import nl.thewally.loginmanager.usermanagement.repository.UserGroupRepository;
 import nl.thewally.loginmanager.usermanagement.repository.UserRepository;
