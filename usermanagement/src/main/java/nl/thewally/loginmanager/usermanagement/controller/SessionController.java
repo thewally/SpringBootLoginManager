@@ -41,7 +41,7 @@ public class SessionController {
         }
         Session session = new Session();
         session.setSessionId(sessionId);
-        session.setUserFk(user.getId());
+        session.setUserFk(userFound.getId());
         sessionRepository.save(session);
 
         return new ResponseEntity<>(Collections.singletonMap("sessionId", sessionId), HttpStatus.OK);
