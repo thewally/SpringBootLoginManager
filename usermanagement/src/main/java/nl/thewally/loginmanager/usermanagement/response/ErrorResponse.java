@@ -1,4 +1,4 @@
-package nl.thewally.loginmanager.usermanagement.errorhandler;
+package nl.thewally.loginmanager.usermanagement.response;
 
 public class ErrorResponse {
 

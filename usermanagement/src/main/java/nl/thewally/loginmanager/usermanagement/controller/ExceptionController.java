@@ -1,7 +1,7 @@
 package nl.thewally.loginmanager.usermanagement.controller;
 
 import nl.thewally.loginmanager.usermanagement.errorhandler.ErrorCode;
-import nl.thewally.loginmanager.usermanagement.errorhandler.ErrorResponse;
+import nl.thewally.loginmanager.usermanagement.response.ErrorResponse;
 import nl.thewally.loginmanager.usermanagement.errorhandler.FunctionalException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

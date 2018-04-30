@@ -10,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class UserController {
@@ -39,6 +41,12 @@ public class UserController {
         }
 
         userRepository.save(user);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+
+        Map<String, String> returnValues = new HashMap<>();
+        returnValues.put("id", String.valueOf(user.getId()));
+        returnValues.put("username", user.getUsername());
+        returnValues.put("partOfGroup", userGroupRepository.findById(user.getGroupFk()).getGroupName());
+
+        return new ResponseEntity<>(returnValues, HttpStatus.OK);
     }
 }
