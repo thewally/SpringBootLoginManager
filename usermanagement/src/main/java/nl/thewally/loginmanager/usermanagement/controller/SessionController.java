@@ -2,10 +2,10 @@ package nl.thewally.loginmanager.usermanagement.controller;
 
 import nl.thewally.loginmanager.usermanagement.domain.Session;
 import nl.thewally.loginmanager.usermanagement.domain.User;
-import nl.thewally.loginmanager.usermanagement.errorhandler.ErrorCode;
 import nl.thewally.loginmanager.usermanagement.errorhandler.FunctionalException;
 import nl.thewally.loginmanager.usermanagement.domain.domainrepository.SessionRepository;
 import nl.thewally.loginmanager.usermanagement.domain.domainrepository.UserRepository;
+import nl.thewally.loginmanager.usermanagement.errorhandler.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,6 +28,9 @@ public class SessionController {
     @Autowired
     private SessionRepository sessionRepository;
 
+    @Autowired
+    private Validator validator;
+
     @RequestMapping(value = "/login" , method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity loginUser(@RequestBody User user) throws FunctionalException {
 
@@ -35,13 +38,11 @@ public class SessionController {
         long randomNumber = new Random().nextLong();
         String sessionId = currentTimeStamp + "" + randomNumber;
 
-        User userFound = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
-        if(userFound==null) {
-            throw new FunctionalException(ErrorCode.ERROR0001);
-        }
+        validator.validateUsernameAndPasswordCorrect(user.getUsername(), user.getPassword());
+
         Session session = new Session();
         session.setSessionId(sessionId);
-        session.setUserFk(userFound.getId());
+        session.setUserFk(userRepository.findByUsername(user.getUsername()).getId());
         sessionRepository.save(session);
 
         return new ResponseEntity<>(Collections.singletonMap("sessionId", sessionId), HttpStatus.OK);
