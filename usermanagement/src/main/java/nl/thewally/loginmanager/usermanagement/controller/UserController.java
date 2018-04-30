@@ -43,6 +43,15 @@ public class UserController {
         return userResponseRepository.findById(userId);
     }
 
+    @RequestMapping(value = "/removeUser/{sessionId}/{userId}")
+    public ResponseEntity removeUser(@PathVariable String sessionId, @PathVariable Long userId) throws FunctionalException {
+        validator.validateSessionAvailable(sessionId);
+        validator.validateUserMayCreateUsers(sessionId);
+
+        User user = userRepository.findById(userId);
+        userRepository.delete(user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     public ResponseEntity addUser(@RequestBody AddUserRequest user) throws FunctionalException {
