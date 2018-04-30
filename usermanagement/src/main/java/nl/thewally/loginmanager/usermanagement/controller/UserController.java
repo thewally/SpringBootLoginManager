@@ -1,9 +1,11 @@
 package nl.thewally.loginmanager.usermanagement.controller;
 
 import nl.thewally.loginmanager.usermanagement.domain.User;
+import nl.thewally.loginmanager.usermanagement.domain.UserLite;
 import nl.thewally.loginmanager.usermanagement.errorhandler.ErrorCode;
 import nl.thewally.loginmanager.usermanagement.errorhandler.FunctionalException;
 import nl.thewally.loginmanager.usermanagement.repository.UserGroupRepository;
+import nl.thewally.loginmanager.usermanagement.repository.UserLiteRepository;
 import nl.thewally.loginmanager.usermanagement.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,11 +23,14 @@ public class UserController {
     private UserRepository userRepository;
 
     @Autowired
+    private UserLiteRepository userLiteRepository;
+
+    @Autowired
     private UserGroupRepository userGroupRepository;
 
     @RequestMapping(value = "/getUsers")
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public List<UserLite> getUsers() {
+        return userLiteRepository.findAll();
     }
 
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
@@ -42,11 +47,6 @@ public class UserController {
 
         userRepository.save(user);
 
-        Map<String, String> returnValues = new HashMap<>();
-        returnValues.put("id", String.valueOf(user.getId()));
-        returnValues.put("username", user.getUsername());
-        returnValues.put("partOfGroup", userGroupRepository.findById(user.getGroupFk()).getGroupName());
-
-        return new ResponseEntity<>(returnValues, HttpStatus.OK);
+        return new ResponseEntity<>(userLiteRepository.findById(user.getId()), HttpStatus.OK);
     }
 }
