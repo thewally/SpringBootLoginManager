@@ -77,6 +77,7 @@ public class UserController {
     public ResponseEntity addUserToGroup(@RequestBody AddUserToGroupRequest request) throws FunctionalException {
         validator.validateSessionAvailable(request.getSessionId());
         validator.validateUserMayAddUsersToGroup(request.getSessionId());
+        validator.validateGroupIsAvailable(request.getGroupId());
 
         User user = userRepository.findById(request.getUserId());
         user.setGroupFk(request.getGroupId());

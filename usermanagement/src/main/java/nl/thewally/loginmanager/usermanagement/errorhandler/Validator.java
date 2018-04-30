@@ -59,6 +59,12 @@ public class Validator {
         }
     }
 
+    public void validateGroupIsAvailable(Long groupId) throws FunctionalException {
+        if(userGroupRepository.findById(groupId)==null) {
+            throw new FunctionalException(ErrorCode.ERROR2001);
+        }
+    }
+
     private UserGroup checkUserPolicy(String sessionId) {
         Session session = sessionRepository.findBySessionId(sessionId);
         User moderator = userRepository.findById(session.getUserFk());
