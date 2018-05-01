@@ -41,7 +41,7 @@ public class Validator {
             throw new FunctionalException(ErrorCode.ERROR1001);
         }
         if (session.getValidUntil().isBefore(DateTime.now())) {
-            throw new FunctionalException(ErrorCode.ERROR0001);
+            throw new FunctionalException(ErrorCode.ERROR1001);
         }
     }
 
