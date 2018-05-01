@@ -27,7 +27,7 @@ public class UserGroupController {
 
     @RequestMapping(value = "/addGroup", method = RequestMethod.POST)
     public ResponseEntity addGroup(@RequestBody AddGroupRequest userGroup) throws FunctionalException {
-
+        validator.validateSessionAvailable(userGroup.getSessionId());
         validator.validateUserMayCreateGroups(userGroup.getSessionId());
 
         UserGroup userGroupToAdd = new UserGroup();
