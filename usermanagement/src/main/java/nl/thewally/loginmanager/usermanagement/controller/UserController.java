@@ -8,13 +8,10 @@ import nl.thewally.loginmanager.usermanagement.response.UserResponse;
 import nl.thewally.loginmanager.usermanagement.errorhandler.FunctionalException;
 import nl.thewally.loginmanager.usermanagement.domain.domainrepository.UserGroupRepository;
 import nl.thewally.loginmanager.usermanagement.domain.domainrepository.UserRepository;
-import nl.thewally.loginmanager.usermanagement.response.responserepository.UserResponseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 public class UserController {
@@ -23,24 +20,24 @@ public class UserController {
     private UserRepository userRepository;
 
     @Autowired
-    private UserResponseRepository userResponseRepository;
-
-    @Autowired
     private UserGroupRepository userGroupRepository;
 
     @Autowired
     private Validator validator;
 
+    @Autowired
+    private UserResponse userResponse;
+
     @RequestMapping(value = "/getUsers/{sessionId}")
-    public List<UserResponse> getUsers(@PathVariable String sessionId) throws FunctionalException {
+    public ResponseEntity getUsers(@PathVariable String sessionId) throws FunctionalException {
         validator.validateSessionAvailable(sessionId);
-        return userResponseRepository.findAll();
+        return new ResponseEntity<>(userResponse.generateUserResponse(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/getUsers/{sessionId}/{userId}")
-    public UserResponse getUser(@PathVariable String sessionId, @PathVariable Long userId) throws FunctionalException {
+    public ResponseEntity getUser(@PathVariable String sessionId, @PathVariable Long userId) throws FunctionalException {
         validator.validateSessionAvailable(sessionId);
-        return userResponseRepository.findById(userId);
+        return new ResponseEntity<>(userResponse.generateUserResponse(userId), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/removeUser/{sessionId}/{userId}")
@@ -70,7 +67,7 @@ public class UserController {
 
         userRepository.save(userToAdd);
 
-        return new ResponseEntity<>(userResponseRepository.findById(userToAdd.getId()), HttpStatus.OK);
+        return new ResponseEntity<>(userResponse.generateUserResponse(userToAdd), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/addUserToGroup", method = RequestMethod.POST)
@@ -83,6 +80,6 @@ public class UserController {
         user.setGroupFk(request.getGroupId());
         userRepository.save(user);
 
-        return new ResponseEntity<>(userResponseRepository.findById(user.getId()), HttpStatus.OK);
+        return new ResponseEntity<>(userResponse.generateUserResponse(user), HttpStatus.OK);
     }
 }
