@@ -14,9 +14,9 @@ public class SessionResponse {
     @Autowired
     private SessionRepository sessionRepository;
 
-    private Map<String, String> response = new HashMap<>();
+    private Map<String, Object> response = new HashMap<>();
 
-    public Map<String, String> generateSessionResponse() {
+    public Map<String, Object> generateSessionResponse() {
         List<Session> sessionList = sessionRepository.findAll();
         for(Session session:sessionList) {
             addResponseItem(session);
@@ -24,7 +24,7 @@ public class SessionResponse {
         return response;
     }
 
-    public Map<String, String> generateSessionResponse(Session session) {
+    public Map<String, Object> generateSessionResponse(Session session) {
         addResponseItem(session);
         return response;
     }
