@@ -67,7 +67,7 @@ public class UserController {
 
         userRepository.save(userToAdd);
 
-        return new ResponseEntity<>(userResponse.generateUserResponse(userToAdd), HttpStatus.OK);
+        return new ResponseEntity<>(userResponse.generateUserResponse(userToAdd), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/addUserToGroup", method = RequestMethod.POST)

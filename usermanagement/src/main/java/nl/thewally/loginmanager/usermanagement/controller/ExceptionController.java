@@ -15,7 +15,7 @@ public class ExceptionController {
         ErrorResponse error = new ErrorResponse();
         error.setErrorCode(ErrorCode.ERROR9999.getErrorCode());
         error.setMessage(ErrorCode.ERROR9999.getErrorMessage() + ex);
-        return new ResponseEntity<>(error, HttpStatus.OK);
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(FunctionalException.class)
@@ -23,7 +23,7 @@ public class ExceptionController {
         ErrorResponse error = new ErrorResponse();
         error.setErrorCode(ex.getErrorCode());
         error.setMessage(ex.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.OK);
+        return new ResponseEntity<>(error, HttpStatus.PRECONDITION_REQUIRED);
     }
 
 }

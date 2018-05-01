@@ -37,7 +37,7 @@ public class UserGroupController {
         userGroupToAdd.setMayCreateGroups(userGroup.getMayCreateGroups());
         userGroupRepository.save(userGroupToAdd);
 
-        return new ResponseEntity<>(userGroupRepository.findById(userGroupToAdd.getId()), HttpStatus.OK);
+        return new ResponseEntity<>(userGroupRepository.findById(userGroupToAdd.getId()), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/getGroups/{sessionId}/{groupId}")
