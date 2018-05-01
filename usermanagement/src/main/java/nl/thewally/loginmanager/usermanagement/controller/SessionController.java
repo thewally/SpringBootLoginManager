@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.SecureRandom;
 import java.time.Instant;
-import java.util.Random;
 
 @RestController
 public class SessionController {
@@ -39,7 +39,7 @@ public class SessionController {
     public ResponseEntity loginUser(@RequestBody User user) throws FunctionalException {
 
         long currentTimeStamp = Instant.now().toEpochMilli();
-        long randomNumber = new Random().nextLong();
+        int randomNumber = new SecureRandom().nextInt((900000000)+100000000);
         String sessionId = currentTimeStamp + "" + randomNumber;
 
         validator.validateUsernameAndPasswordCorrect(user.getUsername(), user.getPassword());
