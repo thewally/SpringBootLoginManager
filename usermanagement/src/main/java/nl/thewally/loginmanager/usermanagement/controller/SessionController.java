@@ -6,6 +6,7 @@ import nl.thewally.loginmanager.usermanagement.errorhandler.FunctionalException;
 import nl.thewally.loginmanager.usermanagement.domain.domainrepository.SessionRepository;
 import nl.thewally.loginmanager.usermanagement.domain.domainrepository.UserRepository;
 import nl.thewally.loginmanager.usermanagement.errorhandler.Validator;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -41,8 +42,10 @@ public class SessionController {
         validator.validateUsernameAndPasswordCorrect(user.getUsername(), user.getPassword());
 
         Session session = new Session();
+        session.setCreationDateTime(DateTime.now());
         session.setSessionId(sessionId);
         session.setUserFk(userRepository.findByUsername(user.getUsername()).getId());
+        session.setValidUntil(DateTime.now().plusHours(1));
         sessionRepository.save(session);
 
         return new ResponseEntity<>(Collections.singletonMap("sessionId", sessionId), HttpStatus.OK);
