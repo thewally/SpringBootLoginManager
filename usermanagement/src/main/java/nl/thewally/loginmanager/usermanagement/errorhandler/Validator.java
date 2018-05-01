@@ -6,6 +6,7 @@ import nl.thewally.loginmanager.usermanagement.domain.UserGroup;
 import nl.thewally.loginmanager.usermanagement.domain.domainrepository.SessionRepository;
 import nl.thewally.loginmanager.usermanagement.domain.domainrepository.UserGroupRepository;
 import nl.thewally.loginmanager.usermanagement.domain.domainrepository.UserRepository;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -35,9 +36,12 @@ public class Validator {
     }
 
     public void validateSessionAvailable(String sessionId) throws FunctionalException {
-        if (sessionRepository.findBySessionId(sessionId) == null)
-        {
+        Session session = sessionRepository.findBySessionId(sessionId);
+        if (session == null) {
             throw new FunctionalException(ErrorCode.ERROR1001);
+        }
+        if (session.getValidUntil().isBefore(DateTime.now())) {
+            throw new FunctionalException(ErrorCode.ERROR0001);
         }
     }
 
