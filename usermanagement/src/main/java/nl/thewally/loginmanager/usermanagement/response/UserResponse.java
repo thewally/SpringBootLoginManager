@@ -5,9 +5,8 @@ import nl.thewally.loginmanager.usermanagement.domain.domainrepository.UserRepos
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Component
 public class UserResponse {
@@ -15,30 +14,63 @@ public class UserResponse {
     @Autowired
     private UserRepository userRepository;
 
-    private Map<String, Object> response = new HashMap<>();
+    private List<ResponseItem> responseList = new ArrayList<>();
 
-    public Map<String, Object> generateUserResponse() {
+    public List generateUserResponse() {
+        responseList.clear();
         List<User> userList = userRepository.findAll();
         for(User user:userList) {
             addResponseItem(user);
         }
-        return response;
+        return responseList;
     }
 
-    public Map<String, Object> generateUserResponse(User user) {
-        addResponseItem(user);
-        return response;
-    }
-
-    public Map<String, Object> generateUserResponse(Long userId) {
+    public ResponseItem generateUserResponse(Long userId) {
         User user = userRepository.findById(userId);
-        addResponseItem(user);
-        return response;
+        return generateUserResponse(user);
     }
 
-    private void addResponseItem(User user) {
-        response.put("id", user.getId());
-        response.put("username", user.getUsername());
-        response.put("groupFk", user.getGroupFk());
+    public ResponseItem generateUserResponse(User user) {
+        responseList.clear();
+        return addResponseItem(user);
+    }
+
+    private ResponseItem addResponseItem(User user) {
+        ResponseItem responseItem = new ResponseItem();
+        responseItem.setId(user.getId());
+        responseItem.setUsername(user.getUsername());
+        responseItem.setGroupFk(user.getGroupFk());
+        responseList.add(responseItem);
+        return responseItem;
+    }
+
+    class ResponseItem {
+        private Long id;
+        private String username;
+        private Long groupFk;
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public Long getGroupFk() {
+            return groupFk;
+        }
+
+        public void setGroupFk(Long groupFk) {
+            this.groupFk = groupFk;
+        }
     }
 }

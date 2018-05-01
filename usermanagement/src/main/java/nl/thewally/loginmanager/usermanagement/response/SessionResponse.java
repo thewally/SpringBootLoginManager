@@ -5,32 +5,56 @@ import nl.thewally.loginmanager.usermanagement.domain.domainrepository.SessionRe
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Component
 public class SessionResponse {
     @Autowired
     private SessionRepository sessionRepository;
 
-    private Map<String, Object> response = new HashMap<>();
+    private List<ResponseItem> responseList = new ArrayList<>();
 
-    public Map<String, Object> generateSessionResponse() {
+    public List generateUserResponse() {
+        responseList.clear();
         List<Session> sessionList = sessionRepository.findAll();
         for(Session session:sessionList) {
             addResponseItem(session);
         }
-        return response;
+        return responseList;
     }
 
-    public Map<String, Object> generateSessionResponse(Session session) {
-        addResponseItem(session);
-        return response;
+    public ResponseItem generateSessionResponse(Session session) {
+        responseList.clear();
+        return addResponseItem(session);
     }
 
-    private void addResponseItem(Session session) {
-        response.put("sessionId", session.getSessionId());
-        response.put("validUntil", session.getValidUntil().toString());
+    private ResponseItem addResponseItem(Session session) {
+        ResponseItem responseItem = new ResponseItem();
+        responseItem.setSessioId(session.getSessionId());
+        responseItem.setValidUntil(session.getValidUntil().toString());
+        responseList.add(responseItem);
+        return responseItem;
+    }
+
+    class ResponseItem {
+        private String sessioId;
+        private String validUntil;
+
+        public String getSessioId() {
+            return sessioId;
+        }
+
+        public void setSessioId(String sessioId) {
+            this.sessioId = sessioId;
+        }
+
+        public String getValidUntil() {
+            return validUntil;
+        }
+
+        public void setValidUntil(String validUntil) {
+            this.validUntil = validUntil;
+        }
     }
 }
