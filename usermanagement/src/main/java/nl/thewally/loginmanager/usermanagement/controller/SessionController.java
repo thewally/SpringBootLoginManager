@@ -32,6 +32,9 @@ public class SessionController {
     @Autowired
     private Validator validator;
 
+    @Autowired
+    private SessionResponse sessionResponse;
+
     @RequestMapping(value = "/login" , method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity loginUser(@RequestBody User user) throws FunctionalException {
 
@@ -48,6 +51,6 @@ public class SessionController {
         session.setValidUntil(DateTime.now().plusHours(1));
         sessionRepository.save(session);
 
-        return new ResponseEntity<>(new SessionResponse(session).getResponse(), HttpStatus.OK);
+        return new ResponseEntity<>(sessionResponse.generateSessionResponse(session), HttpStatus.OK);
     }
 }
