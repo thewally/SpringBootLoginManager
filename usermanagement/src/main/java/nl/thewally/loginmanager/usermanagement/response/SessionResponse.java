@@ -31,7 +31,7 @@ public class SessionResponse {
 
     private ResponseItem addResponseItem(Session session) {
         ResponseItem responseItem = new ResponseItem();
-        responseItem.setSessioId(session.getSessionId());
+        responseItem.setSessionId(session.getSessionId());
         responseItem.setValidUntil(session.getValidUntil().toString());
         responseList.add(responseItem);
         return responseItem;
@@ -41,11 +41,11 @@ public class SessionResponse {
         private String sessioId;
         private String validUntil;
 
-        public String getSessioId() {
+        public String getSessionId() {
             return sessioId;
         }
 
-        public void setSessioId(String sessioId) {
+        public void setSessionId(String sessioId) {
             this.sessioId = sessioId;
         }
 
